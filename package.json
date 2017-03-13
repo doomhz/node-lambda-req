@@ -1,0 +1,30 @@
+{
+  "name": "lambda-req",
+  "version": "1.0.0",
+  "description": "AWS Lambda request wrapper for NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doomhz/node-lambda-req.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "request",
+    "wrapper",
+    "api",
+    "gateway",
+    "sns",
+    "sqs",
+    "amazon"
+  ],
+  "author": "Dumitru Glavan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/doomhz/node-lambda-req/issues"
+  },
+  "homepage": "https://github.com/doomhz/node-lambda-req#readme"
+}
