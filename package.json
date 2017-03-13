@@ -1,6 +1,6 @@
 {
   "name": "lambda-req",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "AWS Lambda request wrapper for NodeJS",
   "main": "index.js",
   "scripts": {
