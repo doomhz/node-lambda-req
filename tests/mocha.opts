@@ -1,0 +1,6 @@
+--compilers js:babel-register
+--recursive
+--colors
+--require should
+
+tests/**/*.js

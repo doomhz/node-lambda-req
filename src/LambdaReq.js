@@ -1,7 +1,10 @@
 class LambdaReq {
   
   constructor (event, callback, context) {
-    console.assert(typeof event === 'object', 'Malformed Lambda event object.')
+    console.assert(
+      typeof event === 'object' && event !== null,
+      'Malformed Lambda event object.'
+    )
     console.assert(typeof callback === 'function', 'Malformed Lambda callback function.')
     
     this._event = event

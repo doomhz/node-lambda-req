@@ -1,10 +1,14 @@
 {
   "name": "lambda-req",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AWS Lambda request wrapper for NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint src",
+    "test": "NODE_ENV=test mocha --opts tests/mocha.opts",
+    "build": "NODE_ENV=production babel src --out-dir lib",
+    "prebuild": "rm -rf lib",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -26,5 +30,14 @@
   "bugs": {
     "url": "https://github.com/doomhz/node-lambda-req/issues"
   },
-  "homepage": "https://github.com/doomhz/node-lambda-req#readme"
+  "homepage": "https://github.com/doomhz/node-lambda-req#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.2.2",
+    "babel-register": "^6.24.0",
+    "mocha": "^3.2.0",
+    "should": "^11.2.1",
+    "sinon": "^2.0.0"
+  }
 }

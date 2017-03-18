@@ -1,0 +1,9 @@
+node_modules
+*.log
+coverage
+junit
+reports
+test-results.xml
+.npmrc
+.idea
+lib

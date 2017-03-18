@@ -1,0 +1,9 @@
+node_modules
+coverage
+junit
+src
+tests
+*.log
+.gitignore
+.npmrc
+.idea
