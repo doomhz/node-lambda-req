@@ -68,7 +68,7 @@ class LambdaReq {
     this._route(`TASK_${name}`, handler)
   }
 
-  invoke (event = this._event, context = this._context, callback = this._callback) {
+  invoke = (event = this._event, context = this._context, callback = this._callback)=> {
     this._event = event
     this._context = context
     this._callback = callback

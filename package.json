@@ -1,6 +1,6 @@
 {
   "name": "lambda-req",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AWS Lambda request wrapper for NodeJS",
   "main": "lib/index.js",
   "scripts": {
@@ -34,6 +34,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-preset-env": "^1.2.2",
     "babel-register": "^6.24.0",
     "mocha": "^3.2.0",
