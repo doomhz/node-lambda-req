@@ -1,8 +1,8 @@
 {
   "name": "lambda-req",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AWS Lambda request wrapper for NodeJS",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src",
     "test": "NODE_ENV=test DEBUG=LambdaReq:* mocha --opts tests/mocha.opts",
