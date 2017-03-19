@@ -6,14 +6,16 @@ const { LambdaReq, LambdaReqError } = require('lambda-req')
 function handler (event, context, callback) {
   console.log('Lambda params:', JSON.stringify(event))
 
-  // initialize wrapper
+  // initialize Lambda with params
   const lambda = new LambdaReq(event, context, callback)
 
   // get | post | put | delete | options
   lambda.get('/v1/test', (req, ev)=> {
+    // access params and headers for APIGateway invocations
     const { params, headers } = req
     
     if (params.email !== 'test@test.com') {
+      // Throw on soft errors
       throw new LambdaReqError({
         message: {
           error: 'User not found',
@@ -25,16 +27,20 @@ function handler (event, context, callback) {
       })
     }
     
+    // return on success
     return { user: { id: 1 } }
   })
 
-  // direct task invoke
+  // direct task invoke, returns a Promise
   lambda.task('migrate', (req, ev)=> {
+    // access params for tasks
     const { params } = req
+
+    // return a promise as a result, it will be awaited by LambdaReq
     return Promise.resolve({ success: true })
   })
 
-  // execute
+  // execute handlers
   lambda.invoke()
 }
 

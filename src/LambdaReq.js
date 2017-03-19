@@ -6,15 +6,6 @@ const log = debug('LambdaReq:')
 class LambdaReq {
   
   constructor (event, context, callback) {
-    console.assert(
-      typeof event === 'object' && event !== null,
-      'Malformed Lambda event object.'
-    )
-    console.assert(
-      typeof callback === 'function',
-      'Malformed Lambda callback.'
-    )
-    
     this._event = event
     this._callback = callback
     this._context = context
@@ -77,7 +68,14 @@ class LambdaReq {
     this._route(`TASK_${name}`, handler)
   }
 
-  invoke () {
+  invoke (event = this._event, context = this._context, callback = this._callback) {
+    this._event = event
+    this._context = context
+    this._callback = callback
+
+    console.assert(typeof event === 'object' && event !== null, 'Malformed Lambda event object.')
+    console.assert(typeof callback === 'function', 'Malformed Lambda callback.')
+    
     log('handling invocation for route %s', this.currentRoute)
 
     if (typeof this._routes[this.currentRoute] !== 'function') {

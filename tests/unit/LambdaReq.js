@@ -26,22 +26,6 @@ describe('LambdaReq', () => {
     }
   }
   
-  it('inits with a lambda event object', () => {
-    const event = null
-    const callback = sinon.stub()
-    const context = {}
-    should(()=> new LambdaReq(event, context, callback))
-    .throw(/Malformed Lambda event object/)
-  })
-
-  it('inits with a lambda callback', () => {
-    const event = {}
-    const callback = null
-    const context = {}
-    should(()=> new LambdaReq(event, callback, context))
-    .throw(/Malformed Lambda callback/)
-  })
-
   describe('invoke', () => {
 
     describe('for an APIGateway request', () => {
@@ -165,6 +149,39 @@ describe('LambdaReq', () => {
         })
       })
     })
+
+    describe('when the event was not set', () => {
+      it('throws', () => {
+        const event = null
+        const callback = sinon.stub()
+        const context = {}
+        const lambda = new LambdaReq()
+        should(()=> lambda.invoke(event, context, callback))
+        .throw(/Malformed Lambda event object/)
+      })
+    })
+
+    describe('when the callback was not set', () => {
+      it('throws', () => {
+        const event = {}
+        const callback = null
+        const context = {}
+        const lambda = new LambdaReq()
+        should(()=> lambda.invoke(event, context, callback))
+        .throw(/Malformed Lambda callback/)
+      })
+    })
+
+    it('sets the Lambda params on invocation time', () => {
+      const callback = sinon.stub()
+      const handler = sinon.stub().returns({ success: true })
+      const lambda = new LambdaReq()
+      lambda.task('taskName', handler)
+      lambda.invoke(TASK_EVENT, {}, callback)
+      lambda.currentRoute.should.eql('TASK_taskName')
+      should(callback.getCall(0).args[1]).containEql('{"success":true}')
+    })
+    
   })
 
   describe('isApiGateway', () => {
