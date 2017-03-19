@@ -2,6 +2,7 @@ node_modules
 coverage
 junit
 src
+examples
 tests
 *.log
 .gitignore

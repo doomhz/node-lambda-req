@@ -1,12 +1,3 @@
-# AWS Lambda Request Wrapper for NodeJS
-
-## Install
-
-`npm install lambda-req --save`
-
-## Use
-
-```javascript
 const { LambdaReq, LambdaReqError } = require('lambda-req')
 
 // event - holds all the Lambda headers and request info
@@ -48,4 +39,3 @@ function handler (event, context, callback) {
 }
 
 module.exports = { handler }
-```

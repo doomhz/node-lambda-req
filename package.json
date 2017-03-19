@@ -1,11 +1,11 @@
 {
   "name": "lambda-req",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "AWS Lambda request wrapper for NodeJS",
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
-    "test": "NODE_ENV=test mocha --opts tests/mocha.opts",
+    "test": "NODE_ENV=test DEBUG=LambdaReq:* mocha --opts tests/mocha.opts",
     "build": "NODE_ENV=production babel src --out-dir lib",
     "prebuild": "rm -rf lib",
     "prepublish": "npm run build"
@@ -39,5 +39,8 @@
     "mocha": "^3.2.0",
     "should": "^11.2.1",
     "sinon": "^2.0.0"
+  },
+  "dependencies": {
+    "debug": "^2.6.3"
   }
 }
