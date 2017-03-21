@@ -8,3 +8,4 @@ tests
 .gitignore
 .npmrc
 .idea
+.nyc_output

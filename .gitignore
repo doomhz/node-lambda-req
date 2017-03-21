@@ -7,3 +7,4 @@ test-results.xml
 .npmrc
 .idea
 lib
+.nyc_output
