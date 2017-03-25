@@ -1,0 +1,6 @@
+{
+  "task": "hello",
+  "params": {
+    "username": "john"
+  }
+}

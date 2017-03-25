@@ -1,0 +1,15 @@
+{
+  "name": "jokes",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node invoke.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./scripts/build.sh",
+    "deploy": "./scripts/deploy.sh",
+    "invoke": "./scripts/invoke.sh"
+  },
+  "dependencies": {
+    "lambda-req": "^1.0.3",
+    "lodash": "^4.17.4"
+  }
+}

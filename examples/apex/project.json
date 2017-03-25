@@ -1,0 +1,14 @@
+{
+  "name": "lreqex",
+  "description": "LambdaReq examples",
+  "memory": 128,
+  "timeout": 5,
+  "role": "arn:aws:iam::475941864968:role/lreqex_lambda_function",
+  "environment": {},
+  "runtime": "nodejs6.10",
+  "handler": "lib.default",
+  "hooks": {
+    "build": "../../node_modules/.bin/webpack --config ../../webpack.config.babel.js --bail",
+    "clean": "rm -fr lib"
+  }
+}
