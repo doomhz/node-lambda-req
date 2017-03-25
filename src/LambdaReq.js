@@ -89,25 +89,27 @@ class LambdaReq {
       return this._respond(error)
     }
 
-    try {
-      log('executing the route handler for %s', this.currentRoute)
+    log('executing the route handler for %s', this.currentRoute)
 
-      const reqData = {
-        params: Object.assign({}, this.params),
-        headers: this.headers ? Object.assign({}, this.headers) : undefined
-      }
-      const result = this._routes[this.currentRoute](reqData, Object.assign({}, this._event))
-      
-      if (result && result.then) {
-        log('handling an async result for %s', this.currentRoute)
-        return result.then((res)=> this._respond(null, res))
-      } else {
-        log('handling a sync result for %s', this.currentRoute)
-        return this._respond(null, result)
-      }
+    const reqData = {
+      params: Object.assign({}, this.params),
+      headers: this.headers ? Object.assign({}, this.headers) : undefined
+    }
+
+    let result
+    try {
+      result = this._routes[this.currentRoute](reqData, Object.assign({}, this._event))
     } catch (err) {
       log('handler %s responded with error: %s', this.currentRoute, err)
       return this._respond(err)
+    }
+    
+    if (result && result.then) {
+      log('handling an async result for %s', this.currentRoute)
+      return result.then((res)=> this._respond(null, res)).catch((err)=> this._respond(err))
+    } else {
+      log('handling a sync result for %s', this.currentRoute)
+      return this._respond(null, result)
     }
   }
 
@@ -126,11 +128,8 @@ class LambdaReq {
 
   _parseApiGatewayData (event = this._event) {
     const body = {}
-    try {
-      Object.assign(body, JSON.parse(event.body))
-    } catch (err) {
-      log(`Could not parse event.body: ${event.body}`, err)
-    }
+    Object.assign(body, JSON.parse(event.body))
+
     return {
       method: event.httpMethod,
       path: event.resource,
@@ -149,11 +148,7 @@ class LambdaReq {
   _respondToTask (error, response) {
     log('handling TASK response: %s %o', error, response)
     
-    try {
-      response = JSON.stringify(response)
-    } catch (e) {
-      response = `${response}`
-    }
+    response = JSON.stringify(response)
     
     log('responding to a task: %s %s', error, response)
 
@@ -168,7 +163,8 @@ class LambdaReq {
     if (error) {
       statusCode = 500
       response = {}
-      if (typeof error === Error) {
+
+      if (error instanceof Error) {
         log('unhandled exception: %s', error)
       } else if (error instanceof LambdaReqError) {
         log('handled LambdaReqError: %s', error)
@@ -178,13 +174,7 @@ class LambdaReq {
         log('unhandled STRING error: %s', error)
       }
     }
-    
-    try {
-      response = JSON.stringify(response)
-    } catch (e) {
-      response = `${response}`
-    }
-    
+
     const apiGatewayResponse = {
       statusCode,
       headers: {
@@ -193,7 +183,7 @@ class LambdaReq {
         'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE, OPTIONS',
         'Content-Type': 'application/json'
       },
-      body: response
+      body: JSON.stringify(response)
     }
     log('responding to APIGateway: %o', apiGatewayResponse)
     

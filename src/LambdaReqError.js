@@ -6,14 +6,7 @@ export default class LambdaReqError {
   }
 
   toString () {
-    let message
-
-    try {
-      message = JSON.stringify(this.message)
-    } catch (e) {
-      message = `${this.message}`
-    }
-    
+    const message = JSON.stringify(this.message)
     return `LambdaReqError: status: ${this.status}, message: ${message}`
   }
 }

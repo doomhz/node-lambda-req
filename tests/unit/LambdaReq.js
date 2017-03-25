@@ -66,6 +66,49 @@ describe('LambdaReq', () => {
             })
           })
         })
+
+        describe('when the handler rejects the promise', () => {
+          it('responds with a status 500', () => {
+            const callback = sinon.stub()
+            const handler = sinon.stub().returns(Promise.reject(new Error('Unhandled exception.')))
+            const lambda = new LambdaReq(API_GATEWAY_EVENT, {}, callback)
+            lambda.get('/v1/test', handler)
+            return lambda.invoke()
+            .then(()=> {
+              should(callback.getCall(0).args[1]).containEql({
+                statusCode: 500,
+                body: '{}'
+              })
+            })
+          })
+        })
+
+        describe('when the handler rejects the promise with a LambdaReqError', () => {
+          it('responds with the thrown error', () => {
+            const lambdaReqError = new LambdaReqError({
+              message: {
+                error: 'Invalid data',
+                code: 'invalidUserData',
+                data: {
+                  email: 'malformed'
+                }
+              },
+              status: 401
+            })
+            const callback = sinon.stub()
+            const handler = sinon.stub().returns(Promise.reject(lambdaReqError))
+            const lambda = new LambdaReq(API_GATEWAY_EVENT, {}, callback)
+            lambda.get('/v1/test', handler)
+            return lambda.invoke()
+            .then(()=> {
+              should(callback.getCall(0).args[1]).containEql({
+                statusCode: 401,
+                body: '{"error":"Invalid data","code":"invalidUserData","data":{"email":"malformed"}}'
+              })
+            })
+          })
+        })
+      
       })
 
       describe('when the handler throws an unhandled exception', () => {
@@ -102,6 +145,20 @@ describe('LambdaReq', () => {
           should(callback.getCall(0).args[1]).containEql({
             statusCode: 401,
             body: '{"error":"Invalid data","code":"invalidUserData","data":{"email":"malformed"}}'
+          })
+        })
+      })
+
+      describe('when the handler throws a random error', () => {
+        it('responds with a status 500', () => {
+          const callback = sinon.stub()
+          const handler = ()=> { throw 'error' }
+          const lambda = new LambdaReq(API_GATEWAY_EVENT, {}, callback)
+          lambda.get('/v1/test', handler)
+          lambda.invoke()
+          should(callback.getCall(0).args[1]).containEql({
+            statusCode: 500,
+            body: '{}'
           })
         })
       })
