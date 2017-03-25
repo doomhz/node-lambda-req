@@ -1,4 +1,5 @@
-const { LambdaReq, LambdaReqError } = require('lambda-req')
+const LambdaReq = require('lambda-req').default
+const LambdaReqError = require('lambda-req').LambdaReqError
 
 // initialize Lambda with no params, pass them later from handler
 const lambda = new LambdaReq()

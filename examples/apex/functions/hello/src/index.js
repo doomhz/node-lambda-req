@@ -45,7 +45,25 @@ lambda.put('/lreqex_hello/{username}', (req, ev)=> {
 
 lambda.delete('/lreqex_hello/{username}', (req, ev)=> {
   const { params } = req
-  return { message: `User ${params.username} deleted!`, params }
+  if (params.username !== 'john') {
+    return Promise.resolve().then(()=> {
+      throw new LambdaReqError({
+        message: {
+          error: {
+            code: 'invalidData',
+            data: {
+              username: 'Please specify a username.'
+            }
+          }
+        },
+        status: 409
+      })
+    })
+  } else {
+    return Promise.resolve().then(()=> {
+      return { message: `User ${params.username} deleted!`, params }
+    })
+  }
 })
 
 

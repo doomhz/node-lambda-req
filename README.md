@@ -7,7 +7,7 @@
 ## Use
 
 ```javascript
-const { LambdaReq, LambdaReqError } = require('lambda-req')
+import LambdaReq, { LambdaReqError } from 'lambda-req'
 
 // initialize Lambda with no params, pass them later from handler
 const lambda = new LambdaReq()
@@ -18,5 +18,5 @@ lambda.task('migrate', (req, ev)=> Promise.resolve({}))
 
 // export the handler
 // set the event params on invocation time by AWS Lambda itself
-module.exports = { handler: lambda.invoke }
+export { handler: lambda.invoke }
 ```

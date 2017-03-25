@@ -1,4 +1,5 @@
-const { LambdaReq, LambdaReqError } = require('lambda-req')
+const LambdaReq = require('lambda-req').default
+const LambdaReqError = require('lambda-req').LambdaReqError
 
 // event - holds all the Lambda headers and request info
 // context - has information about the Lambda runtime - http://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html
