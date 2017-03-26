@@ -4,7 +4,7 @@
 
 const handler = require('./src/index').handler
 
-const task = 'joke'
+const command = 'joke'
 const params = {
 }
 const apiGatewayEvent = {
@@ -23,7 +23,7 @@ const apiGatewayEvent = {
 }
 
 handler(apiGatewayEvent, {}, (err, response)=> {
-// handler({ task, params }, {}, (err, response)=> {
+// handler({ command, params }, {}, (err, response)=> {
   if (err) {
     return console.error('Lambda error: ', err)
   }

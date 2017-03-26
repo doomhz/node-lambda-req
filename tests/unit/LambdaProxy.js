@@ -24,7 +24,7 @@ describe('LambdaProxy', () => {
           res.should.eql(JSON.parse(lambdaResponse.Payload))
           lambdaClient.invoke.calledWith({
             FunctionName: 'myFunction',
-            Payload: JSON.stringify({}, { command: 'myCommand' }, params)
+            Payload: JSON.stringify({ command: 'myCommand', params: {id: 123 } })
           }).should.eql(true)
         })
       })

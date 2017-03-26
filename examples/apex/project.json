@@ -4,7 +4,9 @@
   "memory": 128,
   "timeout": 5,
   "role": "arn:aws:iam::475941864968:role/lreqex_lambda_function",
-  "environment": {},
+  "environment": {
+    "DEBUG": "LambdaReq:*"
+  },
   "runtime": "nodejs6.10",
   "handler": "lib.default",
   "hooks": {

@@ -1,4 +1,4 @@
-# AWS Lambda Request Router for NodeJS
+# AWS Lambda Router for NodeJS
 
 ## Install
 

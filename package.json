@@ -1,7 +1,7 @@
 {
   "name": "lambda-req",
-  "version": "1.1.0",
-  "description": "AWS Lambda request router for NodeJS",
+  "version": "1.1.2",
+  "description": "AWS Lambda router for NodeJS",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src",
