@@ -127,7 +127,7 @@ export { handler }
 
 ### .get|.post|.put|.delete|.options(path = `String`, handler = `function`)
 
-Shorthand methods for binding **APIGateway route** handlers. **ALL APIGateway params** (path, query, body) are collected and passed through the `params` key on the first `req` argument. The original Lambda event is passed as the second handler arg.
+Shorthand methods for binding **APIGateway route** handlers. **ALL APIGateway params** (path, query, body) are collected and passed through the `params` key on the first `req` argument. The router instance is passed as the second handler arg. `router._event` and `router._context` can be accessed for the original handler params.
 
 ```javascript
 const lambda = new LambdaReq(event, context, callback)
@@ -139,7 +139,7 @@ lambda.delete('/test', handler)
 
 lambda.invoke()
 
-async function handler (req, ev) {
+async function handler (req, router) {
   const { params, headers } = req
   return {}
 }
@@ -159,7 +159,7 @@ lambda.proxy('db_migrate', handler)
 
 lambda.invoke()
 
-async function handler (req, ev) {
+async function handler (req, router) {
   const { params } = req
   return {}
 }
