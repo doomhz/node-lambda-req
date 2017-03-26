@@ -9,5 +9,5 @@ install:
 
 script:
   - npm run lint
-  - npm test-coverage
+  - npm run test-coverage
   - npm run coverage
