@@ -4,6 +4,8 @@
 
 
 A collection of tools to handle **ApiGateway requests** and **direct function invocation calls** on AWS Lambda.
+It can be used as a stand-alone lib in a Lambda function or plugged-in to **Apex** or any other serverless framework on NodeJS.
+I'd recommend deploying and managing your Lambda functions with **Apex and LambdaReq** since they play nicely together.
 
 
 ## Installation
