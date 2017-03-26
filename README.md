@@ -1,5 +1,7 @@
 # AWS Lambda Router for NodeJS
 
+[![Build Status](https://travis-ci.org/doomhz/node-lambda-req.svg?branch=master)](https://travis-ci.org/doomhz/node-lambda-req)
+
 ## Install
 
 `npm install lambda-req --save`
