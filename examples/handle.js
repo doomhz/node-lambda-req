@@ -6,7 +6,7 @@ const lambda = new LambdaReq()
 
 // set handlers
 lambda.get('/v1/test', (req, ev)=> {})
-lambda.task('migrate', (req, ev)=> Promise.resolve({}))
+lambda.proxy('migrate', (req, ev)=> Promise.resolve({}))
 
 // export the handler
 // set the event params on invocation time by AWS Lambda itself

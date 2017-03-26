@@ -68,7 +68,7 @@ lambda.delete('/lreqex_hello/{username}', (req, ev)=> {
 
 
 // set direct invocation handlers
-lambda.task('hello', (req, ev)=> {
+lambda.proxy('hello', (req, ev)=> {
   const { params } = req
   return { message: 'hello world!', params }
 })

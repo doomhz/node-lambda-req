@@ -21,7 +21,7 @@ lambda.get('/jokes/{id}', (req, ev)=> {
   }
   return joke
 })
-lambda.task('joke', (req, ev)=> {
+lambda.proxy('joke', (req, ev)=> {
   const id = req.params.id
   const joke = getJoke(id)
   if (!joke) {

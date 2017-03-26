@@ -1,7 +1,7 @@
 {
   "name": "lambda-req",
-  "version": "1.0.4",
-  "description": "AWS Lambda request wrapper for NodeJS",
+  "version": "1.1.0",
+  "description": "AWS Lambda request router for NodeJS",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src",
@@ -21,6 +21,7 @@
     "lambda",
     "request",
     "wrapper",
+    "router",
     "api",
     "gateway",
     "sns",
@@ -34,6 +35,7 @@
   },
   "homepage": "https://github.com/doomhz/node-lambda-req#readme",
   "devDependencies": {
+    "aws-sdk": "^2.32.0",
     "babel-cli": "^6.24.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-istanbul": "^4.0.0",

@@ -16,16 +16,16 @@ class LambdaReq {
     return !!this._event.httpMethod
   }
 
-  get isTask () {
-    return !!this._event.task
+  get isProxy () {
+    return !!this._event.command
   }
 
   get params () {
     if (this.isApiGateway) {
       return this._parseApiGatewayData().params
     }
-    if (this.isTask) {
-      return this._parseTaskData().params
+    if (this.isProxy) {
+      return this._parseProxyData().params
     }
   }
 
@@ -39,8 +39,8 @@ class LambdaReq {
     if (this.isApiGateway) {
       return `${this._parseApiGatewayData().method}_${this._parseApiGatewayData().path}`
     }
-    if (this.isTask) {
-      return `TASK_${this._event.task}`
+    if (this.isProxy) {
+      return `PROXY_${this._event.command}`
     }
   }
 
@@ -64,8 +64,8 @@ class LambdaReq {
     this._route(`OPTIONS_${path}`, handler)
   }
 
-  task (name, handler) {
-    this._route(`TASK_${name}`, handler)
+  proxy (name, handler) {
+    this._route(`PROXY_${name}`, handler)
   }
 
   invoke = (event = this._event, context = this._context, callback = this._callback)=> {
@@ -117,8 +117,8 @@ class LambdaReq {
     if (this.isApiGateway) {
       return this._respondToApiGateway(error, response)
     }
-    if (this.isTask) {
-      return this._respondToTask(error, response)
+    if (this.isProxy) {
+      return this._respondToProxy(error, response)
     }
   }
   
@@ -141,16 +141,16 @@ class LambdaReq {
     }
   }
 
-  _parseTaskData (event = this._event) {
+  _parseProxyData (event = this._event) {
     return event
   }
 
-  _respondToTask (error, response) {
-    log('handling TASK response: %s %o', error, response)
+  _respondToProxy (error, response) {
+    log('handling PROXY response: %s %o', error, response)
     
     response = JSON.stringify(response)
     
-    log('responding to a task: %s %s', error, response)
+    log('responding to a proxy: %s %s', error, response)
 
     this._callback(error, response)
   }

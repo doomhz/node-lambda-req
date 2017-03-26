@@ -33,7 +33,7 @@ function handler (event, context, callback) {
   })
 
   // direct task invoke, returns a Promise
-  lambda.task('migrate', (req, ev)=> {
+  lambda.proxy('migrate', (req, ev)=> {
     // access params for tasks
     const { params } = req
 

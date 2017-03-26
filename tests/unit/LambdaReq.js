@@ -19,8 +19,8 @@ describe('LambdaReq', () => {
     body: '{"active":true}'
   }
 
-  const TASK_EVENT = {
-    task: 'taskName',
+  const PROXY_EVENT = {
+    command: 'commandName',
     params: {
       id: 'u-123'
     }
@@ -165,17 +165,17 @@ describe('LambdaReq', () => {
     
     })
 
-    describe('for a TASK request', () => {
+    describe('for a PROXY request', () => {
       
       it('responds', () => {
         const callback = sinon.stub()
         const handler = sinon.stub().returns({ success: true })
-        const lambda = new LambdaReq(TASK_EVENT, {}, callback)
-        lambda.task('taskName', handler)
+        const lambda = new LambdaReq(PROXY_EVENT, {}, callback)
+        lambda.proxy('commandName', handler)
         lambda.invoke()
         should(handler.calledWith(
           { params: { id: 'u-123' }, headers: undefined },
-          TASK_EVENT
+          PROXY_EVENT
         )).eql(true)
         should(callback.getCall(0).args[1]).containEql('{"success":true}')
       })
@@ -183,12 +183,12 @@ describe('LambdaReq', () => {
       describe('when the handler throws an exception', () => {
         it('errors', () => {
           const callback = sinon.stub()
-          const taskError = new Error('Unhandled exception.')
-          const handler = ()=> { throw taskError }
-          const lambda = new LambdaReq(TASK_EVENT, {}, callback)
-          lambda.task('taskName', handler)
+          const proxyError = new Error('Unhandled exception.')
+          const handler = ()=> { throw proxyError }
+          const lambda = new LambdaReq(PROXY_EVENT, {}, callback)
+          lambda.proxy('commandName', handler)
           lambda.invoke()
-          should(callback.getCall(0).args[0]).eql(taskError)
+          should(callback.getCall(0).args[0]).eql(proxyError)
         })
       })
 
@@ -233,9 +233,9 @@ describe('LambdaReq', () => {
       const callback = sinon.stub()
       const handler = sinon.stub().returns({ success: true })
       const lambda = new LambdaReq()
-      lambda.task('taskName', handler)
-      lambda.invoke(TASK_EVENT, {}, callback)
-      lambda.currentRoute.should.eql('TASK_taskName')
+      lambda.proxy('commandName', handler)
+      lambda.invoke(PROXY_EVENT, {}, callback)
+      lambda.currentRoute.should.eql('PROXY_commandName')
       should(callback.getCall(0).args[1]).containEql('{"success":true}')
     })
     
@@ -260,21 +260,21 @@ describe('LambdaReq', () => {
     })
   })
 
-  describe('isTask', () => {
-    describe('when it has a task property set on event', () => {
+  describe('isProxy', () => {
+    describe('when it has a command property set on event', () => {
       it('returns true', () => {
-        const event = { task: 'test' }
+        const event = { command: 'test' }
         const callback = sinon.stub()
         const lambda = new LambdaReq(event, {}, callback)
-        lambda.isTask.should.eql(true)
+        lambda.isProxy.should.eql(true)
       })
     })
-    describe('when it has no task property set on event', () => {
+    describe('when it has no command property set on event', () => {
       it('returns false', () => {
         const event = {}
         const callback = sinon.stub()
         const lambda = new LambdaReq(event, {}, callback)
-        lambda.isTask.should.eql(false)
+        lambda.isProxy.should.eql(false)
       })
     })
   })
@@ -288,10 +288,10 @@ describe('LambdaReq', () => {
       })
     })
 
-    describe('for tasks', () => {
+    describe('for proxy requests', () => {
       it('returns params', () => {
         const callback = sinon.stub()
-        const lambda = new LambdaReq(TASK_EVENT, {}, callback)
+        const lambda = new LambdaReq(PROXY_EVENT, {}, callback)
         lambda.params.should.eql({ id: 'u-123' })
       })
     })
@@ -316,11 +316,11 @@ describe('LambdaReq', () => {
       })
     })
 
-    describe('for tasks', () => {
+    describe('for proxy requests', () => {
       it('returns the route ID', () => {
         const callback = sinon.stub()
-        const lambda = new LambdaReq(TASK_EVENT, {}, callback)
-        lambda.currentRoute.should.eql('TASK_taskName')
+        const lambda = new LambdaReq(PROXY_EVENT, {}, callback)
+        lambda.currentRoute.should.eql('PROXY_commandName')
       })
     })
   })
@@ -328,7 +328,7 @@ describe('LambdaReq', () => {
   describe('route binders', () => {
     const PATH = '/v1/test'
     const VALID_BINDERS = [
-      'get', 'post', 'put', 'delete', 'options', 'task'
+      'get', 'post', 'put', 'delete', 'options', 'proxy'
     ]
 
     for (const binder of VALID_BINDERS) {
