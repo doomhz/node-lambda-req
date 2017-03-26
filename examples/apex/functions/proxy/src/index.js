@@ -1,4 +1,3 @@
-import AWS from 'aws-sdk'
 import LambdaReq, { LambdaProxy, LambdaReqError } from 'lambda-req'
 
 const lambda = new LambdaReq()
