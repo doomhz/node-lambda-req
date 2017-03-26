@@ -1,6 +1,6 @@
 {
   "name": "lambda-req",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "AWS Lambda router for NodeJS",
   "main": "lib/index.js",
   "scripts": {

@@ -9,7 +9,7 @@ export default class LambdaProxy {
   invoke (functionName, command, params) {
     const config = {
       FunctionName: functionName,
-      Payload: JSON.stringify(Object.assign({}, { command }, { params }))
+      Payload: JSON.stringify(Object.assign({}, { command, params }))
     }
     return this._client.invoke(config).promise()
     .then(response => JSON.parse(response.Payload))

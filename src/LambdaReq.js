@@ -98,7 +98,7 @@ class LambdaReq {
 
     let result
     try {
-      result = this._routes[this.currentRoute](reqData, Object.assign({}, this._event))
+      result = this._routes[this.currentRoute](reqData, Object.assign({}, this))
     } catch (err) {
       log('handler %s responded with error: %s', this.currentRoute, err)
       return this._respond(err)

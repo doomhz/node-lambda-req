@@ -40,7 +40,7 @@ describe('LambdaReq', () => {
           { params: { name: 'john', id: 'u-123', active: true },
             headers: { 'Content-Type': 'application/json' }
           },
-          API_GATEWAY_EVENT
+          lambda
         )).eql(true)
         should(callback.getCall(0).args[1]).containEql({
           body: '{"success":true}'
@@ -59,7 +59,7 @@ describe('LambdaReq', () => {
               { params: { name: 'john', id: 'u-123', active: true },
                 headers: { 'Content-Type': 'application/json' }
               },
-              API_GATEWAY_EVENT
+              lambda
             )).eql(true)
             should(callback.getCall(0).args[1]).containEql({
               body: '{"success":true}'
@@ -175,7 +175,7 @@ describe('LambdaReq', () => {
         lambda.invoke()
         should(handler.calledWith(
           { params: { id: 'u-123' }, headers: undefined },
-          PROXY_EVENT
+          lambda
         )).eql(true)
         should(callback.getCall(0).args[1]).containEql('{"success":true}')
       })
