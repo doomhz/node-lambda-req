@@ -8,7 +8,6 @@ install:
   - npm install
 
 script:
-  - npm lint
+  - npm run lint
   - npm test
   - npm run test-coverage
-  - npm run coveralls-coverage
