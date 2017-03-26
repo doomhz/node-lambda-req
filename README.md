@@ -2,7 +2,11 @@
 
 [![Build Status](https://travis-ci.org/doomhz/node-lambda-req.svg?branch=master)](https://travis-ci.org/doomhz/node-lambda-req) [![Coverage Status](https://coveralls.io/repos/github/doomhz/node-lambda-req/badge.svg?branch=master)](https://coveralls.io/github/doomhz/node-lambda-req?branch=master)
 
-## Install
+
+A collection of tools to handle **ApiGateway requests** and **direct function invocation calls** on AWS Lambda.
+
+
+## Installation
 
 `npm install lambda-req --save`
 
