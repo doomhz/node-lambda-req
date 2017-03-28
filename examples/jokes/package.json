@@ -9,7 +9,7 @@
     "invoke": "./scripts/invoke.sh"
   },
   "dependencies": {
-    "lambda-req": "^1.2.0",
+    "lambda-req": "^1.2.2",
     "lodash": "^4.17.4"
   }
 }

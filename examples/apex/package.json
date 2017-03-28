@@ -5,7 +5,7 @@
   "dependencies": {
     "apex.js": "^2.0.0",
     "babel-polyfill": "^6.23.0",
-    "lambda-req": "^1.2.0"
+    "lambda-req": "^1.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",

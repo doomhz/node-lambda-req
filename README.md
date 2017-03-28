@@ -12,23 +12,6 @@ I'd recommend deploying and managing your Lambda functions with **Apex and Lambd
 
 `npm install lambda-req --save`
 
-## Deploy it on Lambda
-
-```javascript
-import LambdaReq, { LambdaReqError } from 'lambda-req'
-
-// initialize Lambda with no params, pass them later from handler
-const lambda = new LambdaReq()
-
-// set handlers
-lambda.get('/v1/test', (req, ev)=> {})
-lambda.proxy('migrate', (req, ev)=> Promise.resolve({}))
-
-// export the handler
-// set the event params on invocation time by AWS Lambda itself
-export { handler: lambda.invoke }
-```
-
 ## Deploy it with Apex
 
 ```javascript
@@ -37,22 +20,39 @@ import LambdaReq, { LambdaReqError } from 'lambda-req'
 const lambda = new LambdaReq()
 
 // set APIGateway handlers
-lambda.get('/lreqex_hello', (req, ev)=> {
+lambda.get('/lreqex_hello', (req, router)=> {
   const { params } = req
   return { message: 'hello world!', params }
 })
-lambda.post('/lreqex_hello', (req, ev)=> {
+lambda.post('/lreqex_hello', (req, router)=> {
   const { params } = req
   return { message: 'hello world!', params }
 })
 
 // set direct invocation handlers
-lambda.proxy('hello', (req, ev)=> {
+lambda.proxy('hello', (req, router)=> {
   const { params } = req
   return { message: 'hello world!', params }
 })
 
 export default lambda.invoke
+```
+
+## Use it stand-alone on Lambda
+
+```javascript
+import LambdaReq, { LambdaReqError } from 'lambda-req'
+
+// initialize Lambda with no params, pass them later from handler
+const lambda = new LambdaReq()
+
+// set handlers
+lambda.get('/v1/test', (req, router)=> {})
+lambda.proxy('migrate', (req, router)=> Promise.resolve({}))
+
+// export the handler
+// pass the event params on invocation time
+export { handler: lambda.invoke }
 ```
 
 ## Invoke other Lambdas
@@ -63,7 +63,7 @@ import LambdaReq, { LambdaProxy, LambdaReqError } from 'lambda-req'
 const lambda = new LambdaReq()
 
 // set APIGateway handlers
-lambda.get('/lreqex_proxy', (req, ev)=> {
+lambda.get('/lreqex_proxy', (req, router)=> {
   const { params } = req
   
   const proxy = new LambdaProxy()
@@ -335,7 +335,7 @@ A tiny wrapper for Lambda request errors that knows how to be handled correctly 
 The error has a message and a status that will be passed along to the APIGateway.
 
 ```javascript
-lambda.get('/users', (req, ev)=> {
+lambda.get('/users', (req, router)=> {
   const { params } = req
   if (!params.id) {
     throw new LambdaReqError({

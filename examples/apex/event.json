@@ -1,5 +1,5 @@
 {
-  "task": "hello",
+  "command": "hello",
   "params": {
     "username": "john"
   }
