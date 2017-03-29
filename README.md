@@ -4,7 +4,7 @@
 
 
 A collection of tools to handle **ApiGateway requests** and **direct function invocation calls** on AWS Lambda.
-It can be used as a stand-alone lib in a Lambda function or plugged-in to **Apex** or any other serverless framework on NodeJS.
+Use it as a stand-alone lib in a Lambda function or plugged-in to **Apex** or any other serverless framework on NodeJS.
 I'd recommend deploying and managing your Lambda functions with **Apex and LambdaReq** since they play nicely together.
 
 
@@ -15,7 +15,7 @@ I'd recommend deploying and managing your Lambda functions with **Apex and Lambd
 ## Deploy it with Apex
 
 ```javascript
-import LambdaReq, { LambdaReqError } from 'lambda-req'
+import LambdaReq from 'lambda-req'
 
 const lambda = new LambdaReq()
 
@@ -41,7 +41,7 @@ export default lambda.invoke
 ## Use it stand-alone on Lambda
 
 ```javascript
-import LambdaReq, { LambdaReqError } from 'lambda-req'
+import LambdaReq from 'lambda-req'
 
 // initialize Lambda with no params, pass them later from handler
 const lambda = new LambdaReq()
@@ -97,7 +97,7 @@ See [more examples](examples/).
 
 ## LambdaReq
 
-This is the Lambda router object. It binds routes and proxyes events for a Lambda handler.
+This is the Lambda router object. It binds routes and proxies events for a Lambda handler.
 
 
 ### .constructor([event = `Object`], [context = `Object`], [callback = `function`])
@@ -133,7 +133,7 @@ export { handler }
 
 ### .get|.post|.put|.delete|.options(path = `String`, handler = `function`)
 
-Shorthand methods for binding **APIGateway route** handlers. **ALL APIGateway params** (path, query, body) are collected and passed through the `params` key on the first `req` argument. The router instance is passed as the second handler arg. `router._event` and `router._context` can be accessed for the original handler params.
+Shorthand methods for binding **APIGateway route** handlers. **ALL APIGateway params** (path, query, body) are passed through the `params` key on the `req` argument. A router instance is passed as the second handler arg. `router._event` and `router._context` are mapped to the original handler params.
 
 ```javascript
 const lambda = new LambdaReq(event, context, callback)
@@ -156,7 +156,7 @@ A request to `https://api-gateway-id.execute-api.eu-west-1.amazonaws.com/prod/te
 
 ### .proxy(name = `String`, handler = `function`)
 
-Shorthand method for binding **Lambda direct invocation** handlers. It can be used for maintenance tasks (i.e. db migrations, cronjobs) and internal Lambda calls. Each proxy handler has a unique name that is passed as a `command` key on the Lambda event. A direct call, proxyes all the event data to the handler and assumes that extra params are sent along with a `params` key on the Lambda event.
+Shorthand method for binding **Lambda direct invocation** handlers. Used for maintenance tasks (i.e. db migrations, cronjobs) and internal Lambda calls. Each proxy handler has a unique name, passed as a `command` key on the Lambda event. A direct call, proxies all the event data to the handler.
 
 ```javascript
 const lambda = new LambdaReq(event, context, callback)
@@ -171,7 +171,7 @@ async function handler (req, router) {
 }
 ```
 
-Later on, the Lambda function can be invoked from command line through [aws-cli](http://docs.aws.amazon.com/cli/latest/reference/lambda/index.html):
+Invoke this functions from command line with [aws-cli](http://docs.aws.amazon.com/cli/latest/reference/lambda/index.html):
 
 ```bash
 #!/usr/bin/env bash
@@ -200,7 +200,7 @@ lambda.invoke(config).promise().then(response => JSON.parse(response.Payload))
 
 ### .invoke([event = `Object`], [context = `Object`], [callback = `function`])
 
-Invokes the handlers that match the current Lambda route from APIGateway or by a direct invocation call. Lambda handler params can be passed along if they weren't passed at the object initialization time. This method can be exported as a Lambda handler.
+Invokes the handlers that match the current Lambda route from APIGateway or by a direct invocation call. Optionally, Lambda handler params will be passed along. It's recommended to export this method as a Lambda handler.
 
 ```javascript
 import LambdaReq from 'lambda-req'
@@ -229,7 +229,7 @@ export default lambda.invoke
 
 ### .isApiGateway `Bool`
 
-An object `getter` tells if the request was an APIGateway invocation. Internally, checks if an HTTP method is set on the Lambda event.
+It returns `true` if the request was an APIGateway invocation. Internally, checks if an HTTP method is set on the Lambda event.
 
 ```javascript
 const lambda = new LambdaReq(event, context, callback)
@@ -242,7 +242,7 @@ if (lambda.isApiGateway) {
 
 ### .isProxy `Bool`
 
-An object `getter` tells if the request was a direct Lambda invocation. Internally, checks if a property `command` is set on the Lambda event.
+It return `true` if the request was a direct Lambda invocation. Internally, checks if a property `command` is set on the Lambda event.
 
 ```javascript
 const lambda = new LambdaReq(event, context, callback)
@@ -255,9 +255,9 @@ if (lambda.isProxy) {
 
 ### .params `Object`
 
-Stores all the params coming from `event.queryStringParameters`, `event.pathParameters` and `event.body` in one place for an APIGateway call.
+Has all the params coming from `event.queryStringParameters`, `event.pathParameters` and `event.body` for an APIGateway call.
 Stores all the params coming from `event.params` for a direct invocation.
-Can be accessed through the `req.params` on a handler.
+Referenced through `req.params` on a handler.
 
 
 ```javascript
@@ -302,7 +302,7 @@ Returns the current invocation route.
 
 ## LambdaProxy
 
-This is a wrapper for direct Lambda invocation calls. It knows how to set the `command` and `parameters` on internal calls.
+A wrapper for direct Lambda invocation calls. Sets the `command` and `parameters` on internal calls.
 
 ### .constructor([client = `Object` = `AWS.Lambda`])
 
@@ -311,7 +311,7 @@ This is a wrapper for direct Lambda invocation calls. It knows how to set the `c
 Call a Lambda internally, pass in the command and params.
 
 ```javascript
-import { LambdaProxy, LambdaReqError } from 'lambda-req'
+import { LambdaProxy } from 'lambda-req'
 
 const proxy = new LambdaProxy()
 proxy.invoke('myFunction', 'db_migrate', { name: 'users' })
@@ -327,7 +327,7 @@ proxy.invoke('myFunction', 'db_migrate', { name: 'users' })
 
 ## LambdaReqError
 
-A tiny wrapper for Lambda request errors that knows how to be handled correctly by the router.
+A tiny wrapper for Lambda request errors.
 
 
 ### .constructor({ message, status })
