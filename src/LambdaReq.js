@@ -158,7 +158,7 @@ class LambdaReq {
   _respondToApiGateway (error, response) {
     log('handling APIGateway response: %s %o', error, response)
     
-    let statusCode
+    let statusCode = 200
     
     if (error) {
       statusCode = 500

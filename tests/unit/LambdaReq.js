@@ -43,6 +43,7 @@ describe('LambdaReq', () => {
           lambda
         )).eql(true)
         should(callback.getCall(0).args[1]).containEql({
+          statusCode: 200,
           body: '{"success":true}'
         })
       })
@@ -62,6 +63,7 @@ describe('LambdaReq', () => {
               lambda
             )).eql(true)
             should(callback.getCall(0).args[1]).containEql({
+              statusCode: 200,
               body: '{"success":true}'
             })
           })
